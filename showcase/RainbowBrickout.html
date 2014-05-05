@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rainbow Brickout</title>
+
+	<script>//SHARED CODE SCRIPT
+function get_canvas_cursor_position(canvas, evt) {
+	var rect = canvas.getBoundingClientRect();
+	return {
+		x: evt.clientX - rect.left,
+		y: evt.clientY - rect.top
+	};
+}
+
+var COLOR = {
+	RED: "rgb(255,0,0)",
+	GREEN: "rgb(0,255,0)",
+	BLUE: "rgb(0,0,255)",
+	BLACK: "rgb(0,0,0)",
+	WHITE: "rgb(255,255,255)"
+};
+
+var WID = 480;
+var HEI = 480;
+var KEYBOARD = {
+	LEFT: 37,
+	UP: 38,
+	RIGHT: 39,
+	DOWN: 40,
+	SPACE: 32
+};
+
+var KEYS_DOWN = {};
+function key_down(e) {
+	KEYS_DOWN[e.keyCode] = true;
+}
+function key_up(e) {
+	KEYS_DOWN[e.keyCode] = false;
+}
+
+var _canvas;
+var _g;
+
+window.onload = function() {
+	_canvas = document.getElementById("game");
+	_g = document.getElementById("game").getContext("2d");
+	window.addEventListener('keydown', key_down);
+	window.addEventListener('keyup',key_up);
+	init();
+}
+	</script>
+	
+	<script>//DRAWING LIBRARY SCRIPT
+var GLIB = {
+	clear:function() {
+		_g.clearRect(0,0,WID,HEI);
+	},
+	draw_circle:function(x,y,rad,color) {
+		_g.fillStyle = color;
+		_g.beginPath();
+		_g.arc(x,y,rad,0,Math.PI*2);
+		_g.closePath();
+		_g.fill();
+	},
+	draw_text:function(x,y,text) {
+		_g.textAlign = "center";
+		_g.fillStyle = COLOR.BLACK;
+		_g.fillText(text,x,y);
+	},
+	draw_rect:function(x,y,wid,hei,color) {
+		_g.fillStyle = color;
+		_g.fillRect(x,y,wid,hei);
+	}
+};
+	</script>
+	
+	<script> // GAME LOGIC
+const ROWS = 25;
+const COLS = 120;
+const SIZE = 4;
+var remains = COLS * ROWS;
+
+var _player = {
+	x:195,
+	y:450,
+	wid:90,
+	hei:1,
+	vx: 0,
+};
+var _brickobjs = [];
+var _ballobjs = [];
+
+function init() {
+	setInterval(update, 20);
+	
+	for (var i = 0; i < COLS; i++) {
+		for (var j = 0; j < ROWS; j++) {
+			var rand = Math.random();
+			var split = 1;
+			if (rand <= 0.25) {
+				split = 2;
+			} else if (rand >= 0.9) {
+				split = 5;
+			}
+			_brickobjs.push({
+				x : i * SIZE,
+				y : j * SIZE,
+				wid : SIZE,
+				hei : SIZE,
+				color: "hsl(" + i*2 + ",100%,50%)",
+				split: split
+			});
+		}
+	} // end of for loop
+	
+	_ballobjs.push({
+		x : 239,
+		y : 446,
+		wid : 2,
+		hei : 2,
+		vx : 2,
+		vy : 2,
+		color: "hsl(160,0%,72%)"
+	});
+}
+
+function update() {
+	GLIB.clear();
+	GLIB.draw_rect(0,0,WID,HEI,COLOR.BLACK);
+	
+	// paddle control
+	if (KEYS_DOWN[KEYBOARD.LEFT] && _player.x >= 0) {
+		_player.x -= 5;
+	}
+	if (KEYS_DOWN[KEYBOARD.RIGHT] && _player.x <= 390) {
+		_player.x += 5;
+	}
+	
+	
+	GLIB.draw_rect(_player.x,_player.y,_player.wid,_player.hei+9,COLOR.WHITE);
+	
+	var currBalls = _ballobjs.length;
+	for (var i_obj = 0; i_obj < currBalls; i_obj++) {
+		if (_ballobjs[i_obj] != null) {
+			// re-draw from last update
+			var itr_obj = _ballobjs[i_obj];
+			GLIB.draw_rect(itr_obj.x,itr_obj.y,itr_obj.wid,itr_obj.hei, itr_obj.color);
+			
+			// wall test
+			if (itr_obj.x >= 480 || itr_obj.x <= 0) {
+				itr_obj.vx = -itr_obj.vx;
+			}
+			if (itr_obj.y <= 0) {
+				itr_obj.vy = -itr_obj.vy;
+			}
+			
+			// brick test
+			if (itr_obj.y <= ROWS*SIZE) {
+				// in area that can possibly hit a brick
+				for (var j = 0; j < _brickobjs.length; j++) {
+					if (_brickobjs[j] != null) {
+						var brick_obj = _brickobjs[j];
+						if (hitrect_touch(itr_obj,brick_obj)) {
+							// hit brick effect
+							itr_obj.vy = -itr_obj.vy;
+							itr_obj.y += 2;
+							
+							_player.x += 1; //test if a brick is right to ball
+								if (hitrect_touch(itr_obj,brick_obj)) {
+									itr_obj.vx = -itr_obj.vx;
+								}
+							_player.x -= 1; //unset the test
+							
+							_player.x -= 1; //test if a brick is left to ball
+								if (hitrect_touch(itr_obj,brick_obj)) {
+									itr_obj.vx = -itr_obj.vx;
+								}
+							_player.x += 1; //unset the test
+							
+							// create new balls
+							for (var k = 1; k <= brick_obj.split; k++) {
+								currX = brick_obj.x + 1;
+								currY = brick_obj.y + SIZE;
+								
+								var sign = Math.random() > 0.5 ? -1 : 1;
+								var vx = sign * Math.round(Math.random() * 2 + 1);
+								var vy = - (Math.round(Math.random() * 2) + 1);
+								var color = brick_obj.color;
+								
+								_ballobjs.push({
+									x : currX,
+									y : currY,
+									wid : 2,
+									hei : 2,
+									vx : vx,
+									vy : vy,
+									color: color
+								});
+							}
+							
+							_brickobjs[j] = null;
+						}
+					}
+				} // end of for loop
+			}
+			
+			// paddle test
+			if (hitrect_touch(itr_obj,_player)) {
+				itr_obj.vy = -itr_obj.vy
+			}
+			
+			// update ball's position
+			itr_obj.x += itr_obj.vx;
+			itr_obj.y -= itr_obj.vy;
+			
+			if (itr_obj.y >= 540) {
+				_ballobjs[i_obj] = null;
+			}
+		}
+	}
+	
+	// updating bricks
+	for (var i_obj = 0; i_obj < _brickobjs.length; i_obj++) {
+		if (_brickobjs[i_obj] != null) {
+			var itr_obj = _brickobjs[i_obj];
+			GLIB.draw_rect(itr_obj.x,itr_obj.y,itr_obj.wid,itr_obj.hei, itr_obj.color);
+		}
+	}
+}
+
+function signum(number) {
+  return number ? (number < 0 ? -1 : 1) : 0;
+}
+
+function hitrect_touch(a,b) {
+	if (a.wid == 0 || a.hei == 0 || b.wid == 0 || b.hei == 0) return false;
+	var r1x1 = a.x;
+	var r1x2 = a.x + a.wid;
+	var r1y1 = a.y;
+	var r1y2 = a.y + a.hei;
+	
+	var r2x1 = b.x;
+	var r2x2 = b.x + b.wid;
+	var r2y1 = b.y;
+	var r2y2 = b.y + b.hei;
+	return !(r1x1 > r2x2 || r2x1 > r1x2 || r1y1 > r2y2 || r2y1 > r1y2);
+}
+
+	</script>
+</head>
+<body>
+    <canvas id="game"  width="480px" height="480px" style="margin:auto;display:block;border:5px ridge #ccc"></canvas>
+	
+	<p id="instruction">
+		The game's idea is not mine. I stole it from someone else... The original one was made using flash, I believe.<br/>
+		But I forget where I see this... Anyway, many thanks to the original author.<br/>
+		Left and right arrow keys to control the paddle. Some "chain reaction" is supposed to happen after a while.
+	</p>
+</body>
+</html>
