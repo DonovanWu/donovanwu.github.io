@@ -99,7 +99,7 @@ function init() {
 			var split = 1;
 			if (rand <= 0.25) {
 				split = 2;
-			} else if (rand >= 0.9) {
+			} else if (rand >= 0.85) {
 				split = 5;
 			}
 			_brickobjs.push({
@@ -116,6 +116,8 @@ function init() {
 	_ballobjs.push({
 		x : 239,
 		y : 446,
+		real_x: 239,
+		real_y:446,
 		wid : 2,
 		hei : 2,
 		vx : 2,
@@ -163,6 +165,7 @@ function update() {
 						if (hitrect_touch(itr_obj,brick_obj)) {
 							// hit brick effect
 							itr_obj.vy = -itr_obj.vy;
+							itr_obj.real_y += 2;
 							itr_obj.y += 2;
 							
 							_player.x += 1; //test if a brick is right to ball
@@ -183,13 +186,17 @@ function update() {
 								currY = brick_obj.y + SIZE;
 								
 								var sign = Math.random() > 0.5 ? -1 : 1;
-								var vx = sign * Math.round(Math.random() * 2 + 1);
-								var vy = - (Math.round(Math.random() * 2) + 1);
+								// var vx = sign * Math.round(Math.random() * 2 + 1);
+								// var vy = - (Math.round(Math.random() * 2) + 1);
+								var vx = sign * (Math.random() * 2 + 1);
+								var vy = - ((Math.random() * 2) + 1);
 								var color = brick_obj.color;
 								
 								_ballobjs.push({
 									x : currX,
 									y : currY,
+									real_x: currX,
+									real_y: currY,
 									wid : 2,
 									hei : 2,
 									vx : vx,
@@ -210,8 +217,10 @@ function update() {
 			}
 			
 			// update ball's position
-			itr_obj.x += itr_obj.vx;
-			itr_obj.y -= itr_obj.vy;
+			itr_obj.real_x += itr_obj.vx;
+			itr_obj.real_y -= itr_obj.vy;
+			itr_obj.x = Math.round(itr_obj.real_x);
+			itr_obj.y = Math.round(itr_obj.real_y);
 			
 			if (itr_obj.y >= 540) {
 				_ballobjs[i_obj] = null;
@@ -220,11 +229,19 @@ function update() {
 	}
 	
 	// updating bricks
+	cleared = true;
 	for (var i_obj = 0; i_obj < _brickobjs.length; i_obj++) {
 		if (_brickobjs[i_obj] != null) {
+			cleared = false;
 			var itr_obj = _brickobjs[i_obj];
 			GLIB.draw_rect(itr_obj.x,itr_obj.y,itr_obj.wid,itr_obj.hei, itr_obj.color);
 		}
+	}
+	var clear_msg = document.getElementById("clearmsg")
+	if (cleared) {
+		clear_msg.style.opacity = 1;
+	} else {
+		clear_msg.style.opacity = 0;
 	}
 }
 
@@ -255,6 +272,10 @@ function hitrect_touch(a,b) {
 		The game's idea is not mine. I stole it from someone else... The original one was made using flash, I believe.<br/>
 		But I forget where I see this... Anyway, many thanks to the original author.<br/>
 		Left and right arrow keys to control the paddle. Some "chain reaction" is supposed to happen after a while.
+	</p>
+	
+	<p id="clearmsg" style="color:red; font-size:30px">
+		CLEARED!
 	</p>
 </body>
 </html>
