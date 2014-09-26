@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Wenrui (Donovan) Wu</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
 		
-		<link href="stylesheet.css" type="text/css" rel="stylesheet" />
+		<title>Wenrui (Donovan) Wu - showcase</title>
+		
+		<!-- Bootstrap core CSS -->
+		<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Bootstrap theme -->
+		<link href="bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+		
+		<!-- Custom styles for this template -->
+		<link href="stylesheet.css" rel="stylesheet">
 	</head>
 	
 	<body>
-		<div class="banner" id="banner">
-			<div class="top-buttons" id="home">
-				<a href="index.html">HOME</a>
-			</div>
-			
-			<div class="top-buttons" id="showcases">
-				<a href="showcase.html">SHOWCASE</a>
-			</div>
-			
-			<div class="top-buttons" id="notes">
-				<a href="notes.html">NOTES</a>
+	
+		<!-- Navigation Bar -->
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">DonovanWu</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">HOME</a></li>
+						<li class="active"><a href="showcase.html">SHOWCASE</a></li>
+						<li><a href="notes.html">NOTES</a></li>
+					</ul>
+				</div><!-- nav collapse -->
 			</div>
 		</div>
 		
-		<div id="main-content">
-			<h1 class="title">Projects I've worked on</h1>
+		<!-- Content -->
+		<div class="container" role="main">
+		
+			<div class="container">
+				<h1 id="title">Projects I've worked on</h1>
+			</div>
 			
 			<ul id="showcase-content">
 				<li class="showcase-item">
@@ -35,7 +60,7 @@
 							Also posted on <a href="http://gamedev.cs.washington.edu/">UW GameDev Club's page</a>
 						</p>
 					</div>
-				</li>
+				</li><hr />
 				
 				<li class="showcase-item">
 					<div class="showcase-block">
@@ -47,7 +72,7 @@
 							Also posted on <a href="http://gamedev.cs.washington.edu/games/rainbow_brickout.html">UW GameDev Club's page</a>
 						</p>
 					</div>
-				</li>
+				</li><hr />
 				
 				<li class="showcase-item">
 					<div class="showcase-block">
@@ -59,7 +84,7 @@
 							Also posted on <a href="http://gamedev.cs.washington.edu/games/spacecraft_docking_simulator.swf">UW GameDev Club's page</a>
 						</p>
 					</div>
-				</li>
+				</li><hr />
 			<ul>
 		</div>
 	</body>
