@@ -4,24 +4,33 @@ author: Wenrui Wu
 
 body{
 	font-size: 12pt;
+	font-family: "Cambria", "Arial", sans-serif;
 	background-color: #99ffff;
 	padding-top: 70px;
+	padding-bottom: 30px;
 }
 
-.jumbotron {
-	background-color: #66ccff;
+#intro {
+	overflow: hidden;
 }
 
-#title {
-	font-family: "Arial";
+.left-col-pic {
+	float: left;
+	clear: left;
+	padding-right: 20px;
+}
+
+.info-title {
+	font-weight: bold;
+	text-decoration: underline;
+	color: #666666;
+}
+
+.notification, .list-title, .title, .panel-title {
 	font-weight: bold;
 }
 
-#notification, .list-title {
-	font-weight: bold;
-}
-
-#notification {
+.notification {
 	color: red;
 }
 
@@ -37,11 +46,16 @@ body{
 	padding: 10px;
 }
 
+.big-font {
+	font-size: 20pt;
+}
+
 .secret {
 	background-color: black;
 	color: black;
 }
 
+/*
 .footer {
 	bottom: 0px;
 	width: 100%;
@@ -52,3 +66,4 @@ body{
 .footer p {
 	font-size: 8pt;
 }
+*/
