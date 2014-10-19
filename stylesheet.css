@@ -67,3 +67,7 @@ body{
 	font-size: 8pt;
 }
 */
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }
