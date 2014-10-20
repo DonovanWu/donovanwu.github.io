@@ -55,6 +55,7 @@ body{
 	color: black;
 }
 
+/*so that dropdown menu no longer needs to be clicked*/
 .dropdown:hover .dropdown-menu {
     display: block;
  }
