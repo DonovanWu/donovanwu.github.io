@@ -50,6 +50,12 @@ body{
 	font-size: 20pt;
 }
 
+.source-code-sect {
+	font-size: 16pt;
+	text-decoration: underline;
+	color: #428BDC;
+}
+
 .secret {
 	background-color: black;
 	color: black;
