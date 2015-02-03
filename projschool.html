@@ -49,10 +49,10 @@
 								<li class="active">
 									<a href="projschool.html">School</a>
 								</li>
-								<li>
-									<a href="projplanning.html">Planning</a>
-								</li>
 							</ul>
+						</li>
+						<li>
+							<a href="artwork.html">ARTWORK</a>
 						</li>
 					</ul>
 				</div><!-- nav collapse -->
@@ -70,30 +70,62 @@
 				<li class="showcase-item">
 					<div class="showcase-block">
 						<h3>
-							Building simulation environment for an AI robot
+							SARA Semantics Aware Robotic Assistants
 						</h3>
+						
 						<p class="info-title">
-							Description:
+							Overview:
 						</p>
 						<p>
-							This is a school research project in which we build a robot with artificial intelligence 
-							that provides service such as self-navigation and answering people's question. 
-							To make things convenient, we want to make it possible to test the robot's function in 
-							a computer simulation rather than having to test it in reality every time. Therefore I 
-							helped to build this simulation environment using blender game engine. Some of the 
-							components in the simulation comes from <a href="http://www.openrobots.org/wiki/morse/">Morse</a> 
-							simulation package. Here is a screenshot for one of the simulation we built up:
+							This is a school research project on Artificial Intelligence in CSE department. The project builds
+							a robot that can navigate through the building by itself and finish some simple tasks people 
+							ask, such as checking if a certain person is in a certain room.
+						</p>
+						
+						<p class="info-title">
+							Sub-project 1: Simulation
+						</p>
+						<p>
+							The simulation uses a modified morse package and runs in blender game engine.
+						</p>
+						<p>Primarily worked on...</p>
+						<ul>
+							<li>building a computer simulation for the robot.</li>
+							<li>setting up the CSE building environment in the simulation.</li>
+							<li>setting up human object (with elevator-calling function) in the simulation.</li>
+						</ul>
+						<p>Main purpose of the simulation:</p>
+						<ul>
+							<li>
+								The simulation serves as a convenient way to test out robot's function, new code, etc. 
+								so it is not necessary to do it in reality every time. Also, the simulation 
+								makes it possible for multiple people to do robot testing at the same time because they can 
+								just do it on their own computer, while testing out in reality on actual robot only allows one 
+								person a time.
+							</li>
+						</ul>
+						<p>
+							Here is a screenshot for the simulation we built up:
 						</p>
 						<img src="img/sim_scrnsht.png" />
 						
 						<p></p>
 						
 						<p class="info-title">
-							Progress Update:
+							Sub-project 2: Robot's Camera Tilting
 						</p>
 						<p>
-							The simulation for the robot is almost completed, so I am currently moving to work on 
-							part of the code that navigates the actual robot.
+							Primarily worked on...
+						</p>
+						<ul>
+							<li>
+								planning out a navigation scheme for the robot using state machine, in which tilting the camera 
+								is a part of navigation steps.
+							</li>
+							<li>writing an action server and client for tilting the robot’s camera to a given degree.</li>
+						</ul>
+						<p>
+							The code is tested in previously built simulation.
 						</p>
 					</div>
 				</li><hr />
