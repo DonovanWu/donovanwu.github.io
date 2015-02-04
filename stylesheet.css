@@ -56,6 +56,10 @@ body{
 	color: #428BDC;
 }
 
+.video-block {
+	margin: 10px;
+}
+
 .secret {
 	background-color: black;
 	color: black;
