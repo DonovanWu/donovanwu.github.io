@@ -5,7 +5,8 @@ author: Wenrui Wu
 body{
 	font-size: 12pt;
 	font-family: "Cambria", "Arial", sans-serif;
-	background-color: #99ffff;
+	/* background-color: #99ffff; */
+	background-color: #dddddd;
 	padding-top: 70px;
 	padding-bottom: 30px;
 }
