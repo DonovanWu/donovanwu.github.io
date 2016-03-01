@@ -71,3 +71,7 @@ body{
 .dropdown:hover .dropdown-menu {
     display: block;
  }
+ 
+ .alert {
+	 color : red;
+ }
