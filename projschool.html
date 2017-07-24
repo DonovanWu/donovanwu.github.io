@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+
+<!-- COMMON BEGIN -->
+
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +10,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>Wenrui (Donovan) Wu - School Projects</title>
+		<title>Wenrui (Donovan) Wu</title>
 		
 		<!-- Bootstrap core CSS -->
 		<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -52,13 +55,15 @@
 							</ul>
 						</li>
 						<li>
-							<a href="artwork.html">ARTWORK</a>
+							<a href="misc.html">MISC</a>
 						</li>
 					</ul>
 				</div><!-- nav collapse -->
 			</div>
 		</div>
-		
+
+<!-- COMMON END -->
+
 		<!-- Content -->
 		<div class="container" role="main">
 			
@@ -70,8 +75,98 @@
 				<li class="showcase-item">
 					<div class="showcase-block">
 						<h3>
+							NDN-MIDI
+						</h3>
+
+						<p>@UCLA, Apr 2017 - Jun 2017</p>
+
+						<p class="info-title">
+							Overview:
+						</p>
+						<p>
+							Term project of CS 217B - Advanced Research in Network I took at UCLA. Collaborated with a classmate.
+						</p>
+
+						<p class="info-title">
+							What We Have Done
+						</p>
+						<p>
+							Named-Data Networking (NDN) is a newly proposed data-centric Internet architecture. A classmate of mine and me worked on 
+							creating a MIDI application that can transmit data of notes over the network under NDN.
+						</p>
+						<p>
+							We divided our work kind of based on network layering, though in NDN, application is supposed to have more control over 
+							network transportation and can see the network layer directly. I worked on the real-time transportation of notes while 
+							my classmate worked on hooking up MIDI library and synthesizer interfaces to our application.
+						</p>
+					</div>
+				</li>
+
+				<li class="showcase-item">
+					<div class="showcase-block">
+						<h3>
+							Nanocrafter
+						</h3>
+
+						<p>@UW, </p>
+						
+						<p class="info-title">
+							Overview:
+						</p>
+						<p>
+							This is a research project in Center for Game Science (CGS) at University of Washington, in which we 
+							made an educational game. Nanocrafter is a game that teaches people about DNA as well as a tool of 
+							doing DNA reaction simulation.
+						</p>
+						
+						<p class="info-title">
+							Sub-project 1: Implementing helping hand's tutorial for concentration change
+						</p>
+						<p>
+							Implemented new function to helping hand in game and made it able to point to + or - sign position of 
+							the widget that shows DNA concentration.
+						</p>
+						<p>
+							Level designers can tell the helping hand where to go by putting its position code (updated now) in level JSON.
+						</p>
+						
+						<p class="info-title">
+							Sub-project 2: VCR control of reaction playback
+						</p>
+						<p>
+							Consists of both front-end and back-end work:
+						</p>
+						<ul>
+							<li>
+								<span class="info-title">On front-end side: </span>
+								Designed playback button layout during reaction playback and implemented them (most of their code already 
+								existed, such as pause and rewind, so I just linked the code to playback buttons)
+							</li>
+							<li>
+								<span class="info-title">On back-end side: </span>
+								Modified playback animation class to take animation speed into consideration, so that fast-forward and 
+								slow-down buttons actually work. The animation speed uses a jumping or interpolating frame fashion to 
+								speed up or slow down playback animation.
+							</li>
+						</ul>
+						
+						<p class="info-title">
+							Sub-project 3: Concentration split animation
+						</p>
+						<p>
+							Concentration split action in game no longer just kicks the split DNA off a little bit, but replaced by a smooth
+							transition animation. The split DNA also cleverly finds a relatively empty space on stage and moves to that position.
+						</p>
+					</div>
+				</li><hr />
+
+				<li class="showcase-item">
+					<div class="showcase-block">
+						<h3>
 							SARA Semantics Aware Robotic Assistants
 						</h3>
+
+						<p>@UW, June 2014 - December 2014</p>
 						
 						<p class="info-title">
 							Overview:
@@ -124,62 +219,6 @@
 						</ul>
 						<p>
 							The code is tested in previously built simulation.
-						</p>
-					</div>
-				</li><hr />
-				
-				<li class="showcase-item">
-					<div class="showcase-block">
-						<h3>
-							Nanocrafter
-						</h3>
-						
-						<p class="info-title">
-							Overview:
-						</p>
-						<p>
-							This is a research project in Center for Game Science (CGS) at University of Washington, in which we 
-							made an educational game. Nanocrafter is a game that teaches people about DNA as well as a tool of 
-							doing DNA reaction simulation.
-						</p>
-						
-						<p class="info-title">
-							Sub-project 1: Implementing helping hand's tutorial for concentration change
-						</p>
-						<p>
-							Implemented new function to helping hand in game and made it able to point to + or - sign position of 
-							the widget that shows DNA concentration.
-						</p>
-						<p>
-							Level designers can tell the helping hand where to go by putting its position code (updated now) in level JSON.
-						</p>
-						
-						<p class="info-title">
-							Sub-project 2: VCR control of reaction playback
-						</p>
-						<p>
-							Consists of both front-end and back-end work:
-						</p>
-						<ul>
-							<li>
-								<span class="info-title">On front-end side: </span>
-								Designed playback button layout during reaction playback and implemented them (most of their code already 
-								existed, such as pause and rewind, so I just linked the code to playback buttons)
-							</li>
-							<li>
-								<span class="info-title">On back-end side: </span>
-								Modified playback animation class to take animation speed into consideration, so that fast-forward and 
-								slow-down buttons actually work. The animation speed uses a jumping or interpolating frame fashion to 
-								speed up or slow down playback animation.
-							</li>
-						</ul>
-						
-						<p class="info-title">
-							Sub-project 3: Concentration split animation
-						</p>
-						<p>
-							Concentration split action in game no longer just kicks the split DNA off a little bit, but replaced by a smooth
-							transition animation. The split DNA also cleverly finds a relatively empty space on stage and moves to that position.
 						</p>
 					</div>
 				</li><hr />
