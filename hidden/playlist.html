@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ヒミツ～&#9825;</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <!-- Markdown To HTML: Marked + DOMPurify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" integrity="sha512-tjg8I2d6Fi0OBGz1csmr7RfI4uupYaCfL/RqhVRTS42RMGwfBsjwBGmhzhI+e2dPmyew8cFkoxnVkGvADDLvbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js" integrity="sha512-9+ilAOeXY8qy2bw/h51MmliNNHvdyhTpLIlqDmVpD26z8VjVJsUJtk5rhbDIUvYiD+EpGoAu0xTa7MhZohFQjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/stackoverflow-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.6.0/highlightjs-line-numbers.min.js" integrity="sha512-nkjLcPbHjdAof51b8uUd+6q4YH7YrMwh+kfTwSBrg5T/yMKrz8GUxM4uJJ1xAL7Q1lfAMIEowDsTzfWskZ5RcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Site Imports -->
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <script type="text/javascript" src="/components.js"></script>
+
+    <style type="text/css">
+        ul.playlist img {
+            max-width: 60%;
+        }
+        ul.playlist li {
+            padding: 25px 0px;
+            margin: 0px 25px;
+            border-top: 1px solid #ccc;
+        }
+        div.intro {
+            padding: 0px 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-top">
+        <nav></nav>
+    </header>
+
+    <main class="row">
+        <article class="col-lg-8 container">
+            <div class="intro">
+                <h3 class="mt-3">You've found my playlist!</h3>
+                <p>Once a colleague of mine joked that we could play music out loud in the office the day before Chinese New Year, since nobody would be at the office. And our boss replied by asking what music we would play. So, here's a list of music I would totally turn the volume up to the max for when I am the only person still at work! And no, it doesn't include <em>If You Do Do</em>. XD</p>
+                <p>A bit about my taste: my taste is probably different from most people around me. It's not just that I rarely listen to Chinese songs. You'll notice that there's barely any love songs in the list below. But really, it's not that I avoid "love songs", but rather, I generally wouldn't like a song too much if it's about "yearning". And the songs I like usually fall into one of the two cases below, and sometimes it's both:</p>
+                <ol>
+                    <li>It's about personal struggles</li>
+                    <li>It's connected to an experience</li>
+                </ol>
+                <p>If a song I like is the theme song of an anime or a game that I really liked, it falls into the second case. Otherwise, it tells a story about someone's personal struggle. Well... I guess different people have different definitions for "personal struggle", though. For example, some people may consider a person's pursuit of external things such as money, fame, and "success", to be personal struggles, because, well, you must work very hard to obtain these. But, to me, those are insignificant struggles. What I consider to be "personal struggles" are much more unconquerable things, and in the end, you might not win at all. And perhaps that says something about me.</p>
+                <p>Note: the playlist is shuffled every time you enter this page, since I don't want the order to be misconstrued as my rating for how much I love each song.</p>
+            </div>
+
+            <ul class="playlist">
+                <li>
+                    <h5>Clover</h5>
+                    <p>Case: Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/bghXBlrl3sQ?si=6QdfGhjwVfzlL1w0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>I played the Megaman Zero series in middle school. I believe the soundtrack of the in-game BGM is actually called <em>Departure</em> and it's from the second game in the series? Anyway, this is like the most iconic song of the entire Zero series.</p>
+                </li>
+
+                <li>
+                    <h5>この手で (lit. with these hands)</h5>
+                    <p>Case: Personal struggle</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/8e2kPvPL76k?si=-PZ_mOEPHj9Fk0N4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>For those who already know this song... I see, you're a man of culture as well. XD</p>
+                    <img alt="Seattle Transit PSA: Octopus" src="/img/keep-your-tentacles-to-yourself.jpg">
+                    <p>If you read into the lyrics, though, it's actually insanely good in that in a few lines of words, it has constructed an incredibly complex and multi-layered character. The female protagonist (I assume it's a female protagonist) clearly had some pretty traumatic past experience, which, despite her best effort, she couldn't get over (あの頃の記憶が今も / 傷迹になったまま 消せなくて). But it would look like she was not completely innocent herself, either. She knew how to do bad things and, driven by the ruthless environment she lived in, had also done bad things (or at least that's my interpretation for 罪で汚れた傷口に). All she could do to numb the pain was hurting herself even further, sometimes in a quite literal sense (爪をたて新しい 痛みでごまかしてる). However, she still believed in the good in the world, and wanted to make a leap of faith to pursue it (運命に身を任せ 目を闭じる). Nevertheless, she had already realized the meaninglessness of it all (なのに ダメ わたし「意味」まだ探してる). But more than anything, she hated that she couldn't break this cycle of tragedy (and perhaps she herself was falling down further, or perhaps she had unintentionally dragged someone else into her madness), so she made up her mind to put an end to this at all cost (この手で 今この手で 断ち切って / 悲しみの連鎖に 終止符をうって), even if the path ahead was clearly martyrdom (涙が この涙が 渇いたら / もう一度世界に いつか見たあの光を).</p>
+                    <p>This song has some of the most intense personal struggle I've seen depicted (in songs, to say the least). The female protagonist is a victim, is strong, is a conflicting person, and ultimately, is determined. Hardly any songs can rival the quality of this one in terms of lyrics.</p>
+                    <p>There are actually two versions of this song, same lyrics but performed by two different singers. This one is performed by Yakushi Ruri (薬師るり), which is the superior version in my opinion. Her voice has the just right amount of toughness in it, which perfectly illustrates how the female protagonist is a strong girl, while she's also strengthless in face of the things she's set out to do.</p>
+                    <!-- <p>And... the first four minutes of Episode 1 is what I think of to try to welcome sleep into my body every night. LOL</p>
+                    <img alt="There is another Seattle Transit PSA on which there's a bunny wearing an earphone, with the text saying: NOBUNNY NEEDS TO HEAR YOUR BUSINESS. Sadly I don't have a picture of it. Too bad."> -->
+                </li>
+
+                <li>
+                    <h5>A Great Asset to the Company</h5>
+                    <p>Case: Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Ve27S1PXB3k?si=m8IhreDNTI600LsR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>"What do you like to do for fun after work?" "I like to reach profit quota for the company." XD</p>
+                    <p>Actually, I haven't even played <em>Lethal Company</em> but have just watched tons of youtube videos on it. It's a horror game with some silly energy. Basically you play for a high score known as <strong style="font-size: 40px;">THE PROFIT QUOTA</strong>. The monsters are very hideous but you kind of learn their patterns after a while and get used to them. I remember watching high quota runners starting their stream saying: "Okay, folks, today we have a simple goal, and that is to be the greatest fucking asset this company has ever seen." It's just so funny. It's like... it kind of has the same ring to saying someone's "living rent free in my head", but even more twisted and funnier.</p>
+                </li>
+
+                <li>
+                    <h5>灯火沿路行 (lit. going down the road, accompanied by the lamps)</h5>
+                    <p>Case: Personal struggle</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/1utAaVyqt90?si=nuRre11MhlIcg1_o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>Hank Green (Vlogbrothers) said <a href="https://www.youtube.com/watch?v=j48Z7dqBcWM&t=98s" target="_blank">in this video</a> that songs really lock into people's mind and they could even hate it if you change it. I can definitely feel that with this song. This is not the original version. The original version used Vocaloid, and the instrumental was simpler. The current version uses SynthesizerV AI. When I compared them, objectively, the current version is just better, but still, I think I prefer the original version. Sadly, the original Vocaloid version has been wiped from the Internet. I searched and searched on the youtube and couldn't find it. And apparently it's deleted on Bilibili, too. I do still have a copy locally on my personal computer, which is how I got to compare the two versions.</p>
+                    <p>Anyhow, this is indisputably my favorite Chinese Vocaloid song. I think this is song is telling a story. It may not be what the author intended for, but here's what I think the story is. It's about war. It's about a war that displaced thousands and thousands of people from their homes in the cold, dark winter. A war they did not choose to fight but definitely <em>was</em> zealous about. People thought they could sit back and watch their nation crush their enemies, only to find their faith shattered into pieces, and their nation, torn apart. And this is a song about how people moved forward while having abandoned all hope and no longer knowing what to believe.</p>
+                </li>
+
+                <li>
+                    <h5>壊レタ世界ノ歌 / Weight of the World</h5>
+                    <p>Case: Personal struggle + Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Dsk3DTdTY3Y?si=CdCwfFGT4mGvqqad" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>There are three versions of this song: Japanese, English, and Chaos Language version. I think the Japanese and English versions tell two different stories and they're not necessarily told from 9S's and 2B's perspectives. Here's my interpretation. The Japanese vesion tells the story of a dying soldier, who has come to realize the meaninglessness of what they once believed in and is at peace with themselves. They are only thinking of the person they love as their consciousness slowly faded away. And the English version... It would seem like the main character in the English version is a somewhat devout religious person??? Or at least that's my interpretation... I think the story is that, her religious beliefs drove her to join a holy war, during which she did lots of killing. And that she eventually found it to be the exact opposite of the teachings she grew up with. So she prayed for God's forgiveness and hoped that there would be redemption for her. If anything, the Japanese version seems to be a "sequel" to the English version. And of course, the Chaos Language version is deliberately meaningless. And perhaps that suits the theme of the game the best out of all these three versions.</p>
+                </li>
+
+                <li>
+                    <h5>Survival</h5>
+                    <p>Case: Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/NlmezywdxPI?si=FEh_QfBVnBzI03FE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>I first heard of this song in the trailer for <em>Call of Duty: Ghosts</em>... And I didn't even play the game (LOL). What's more, I actually didn't know Eminem back then, either (and yes, I was kind of a shut-in), but I knew a few girls in my high school who loved this song called <em>Love the Way You Lie</em>. And, you know, sometimes I just like it when a song's lyrics is a bit more savage and transgressive.</p>
+                </li>
+
+                <li>
+                    <h5>Red Like Roses Part II</h5>
+                    <p>Case: Personal struggle</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/KRCHvZJnxYU?si=4b_PmJ570Xp52u5Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>It took me a few years to figure out what this song is about... I mean, RWBY's lore wasn't very clear for its first few seasons. And they only release one season per year. And I don't read its Wiki. Of course it took me a few years. XD</p>
+                    <p>I don't watch the show anymore. If you want my brutally honest opinion, I think the show is a disappointment. Particularly, Ruby is too bland a character, and this is even widely agreed upon among fans. Ironically, Ruby has more character developments in this song than in the entire show. And this song is a conversation between Ruby and her late mom, who chose to die for a cause over staying with her family. What's more, Ruby had to then carry the torch, which was an immense burden. Anyone who has such a thing fallen upon them will go through quite some struggles to say the least. And the cause better be super important. But nope, in the show Ruby is just sort of a naive person. Nevertheless, I still like the song. The theme implied here is very heavy. That alone is enough for me to enjoy it.</p>
+                </li>
+
+                <li>
+                    <h5>Let You Down</h5>
+                    <p>Case: Personal struggle + Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/BnnbP7pCIvQ?si=BiyEf4_6ChYzBlvE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>This is the ending song of Netflix's <em>Cyberpunk: EdgeRunners</em>, a prequel to the game <em>Cyberpunk 2077</em>. I think the two verses actually told two different stories. The first verse is obviously David and Lucy's story. The second verse is interesting... You'll notice that <a href="https://www.youtube.com/watch?v=3sSjXZ2sczU">the opening theme of <em>Cyberpunk: EdgeRunners</em></a> is <a href="https://www.youtube.com/watch?v=haW_ruZ_Be8">Franz Ferdinand's <em>This Fire</em></a>, except they removed the line "I'll burn the city", which supposedly is to convey how indestructible the institution is. However, noticeably, the second verse contains a line saying "I'll make the city burn". Thus I think it's not David and Lucy's story, but someone else's that's also within the Cyberpunk universe.</p>
+                    <p>So what is the second verse's story? Here's what I think. A rich girl fell in love with a guy who was broke. They really do love each other despite the huge gap between their social status. However, the guy was to join a revolution to topple the capitalists that rule the city (hence "they will finally feel the flame" and "I will make the city burn"), and the girl's parents were one of those said capitalists. The guy's also prepared to die for the cause (hence "we're planning to return"). So they had to part ways. The passionate romance met with cold hard reality. Still, the guy felt very sorry for the girl so he kept saying "forgive me for letting you down". So... <em>Cyberpunk: EdgeRunners</em> Season 2 confirmed?? XD</p>
+                </li>
+
+                <li>
+                    <h5>Magnet</h5>
+                    <p>Case: Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/vSnKX7kAgIc?si=BNBuYy6BRnmQ-9Jg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>Need I say more why I like this song? 'Cuz it's the anthem of the yuri nation!</p>
+                    <p>Seriously, someone needs to go the the Greek island where Sappho was born and dance to this song and send it on TikTok! XD</p>
+                </li>
+
+                <li>
+                    <h5>Bad Apple (English Cover)</h5>
+                    <p>Case: Personal struggle + Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ABe4o099M8s?si=AzSbKsopgZHUvaeC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>I'm sharing the English cover of Bad Apple here because it's the first English cover of an anime song I heard that did the original justice. <a href="https://www.youtube.com/watch?v=FtutLA63Cp8">I'll also link a Youtube video that's a reupload of the original Japanese version</a>. I think the two versions are equally good. I like the vocal of the original version slightly more and the lyrics of the cover version slightly more.</p>
+                    <p>If you have seen the home page and it is your first time knowing this song... You may have just realized that the Macbook deco I use in the profile picture is actually a reference to this... And the reference is "bad apple". XD</p>
+                    <p>If you have paid attention to the lyrics, though, you'll have found that it's extremely depressing, in a stark contrast to the tune, which has a happy and partying vibe. In anime songs, this is actually not too uncommon, but <em>Bad Apple</em> is definitely one of the best. To me, it's a perfect representation of "cheerful nihilism". Oh, the universe is absurd and existence is pain! And here I am, enjoying the meaninglessness of it all! The lyrics just straight out depicts a person with depression issues. In a quite realistic manner, I would add. But with the partying beats from the beginning all the way to the end, you know that with all the immense struggles they're going through, they have once again, lived to see another day.</p>
+                </li>
+
+                <li>
+                    <h5>Lilium</h5>
+                    <p>Case: Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/JvCpCg0sGkg?si=J1tuQkNE5JJHDzx9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>I absolutely don't understand the lyrics but this is so awesome! Also, yes, I <em>have</em> watched the anime, of course. Why do you think I would click on the video otherwise? XD</p>
+                    <p>Actually, here's <a href="https://www.youtube.com/watch?v=utKQYL0fNxE">an even more insane cover</a> in multiple aspects. But Grissini Project's version has professional-grade audio recording, so I chose to share theirs.</p>
+                    <p>Usually, a "normie" (LOL) would absolutely not suspect anything about this song, which is why I dared to show this video to my mom one time, and she only commented on how foreign kids also learn instruments. Yes, insert your stereotypical Asian parents joke here. XD</p>
+                    <p>Okay, to be fair, though, why there is so much fuzz around every cover of this song on YouTube is just because of the pure shock value of the first episode of the anime. The anime as a whole, though, to be perfectly honest, is kind of unsatisfactory. Well, some may point out that in the manga the male protagonist had to kill Lucy himself in the end, but that misses the point. The whole show was trying so hard to use family relationships to solve a problem that's completely beyond families and individuals instead of sending a "we live in a society" message, which is why it's so unsatisfactory.</p>
+                </li>
+
+                <li>
+                    <h5>Call of Silence</h5>
+                    <p>Case: Personal struggle + Experience</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5Ggnzs2hP3s?si=KQ4UVJAbHPze3i4B" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>Alright, this song actually has lyrics, but I chose a lyricless version, just piano solo. This specific cover more properly conveyed the powerful feeling of this piece, I think.</p>
+                    <p>This is the music that played during the backstory of Ymir in the anime <em>Attack on Titan</em>. Not the Founding Titan Ymir, the Jaw Titan Ymir. I know it's confusing to those who haven't watched the anime (LOL). Ymir's backstory is that she has died... turned into a titan, technically. So her human consciousness has died, but she lived as a titan for a few hundred years. Then, by pure coincidence, she managed to devour the human who had Jaw Titan power, and got to live as a human once again. When she woke up, she found herself lying naked in the desert. And then, she saw the "path" under the night sky, like the Milky Way, as she bursted out laughing, at her fate, probably. It was when she decided to live the rest of her life authentically. So she went on to be a lowlife.</p>
+                    <p>And it was an incredibly powerful imagery, at least to me, Ymir laughing at the sky with no one around while being naked and all. It's sort of a symbolism, as in some languages, the word "naked" can mean being "true" or "authentic". And that is reflected in Ymir's decision on how she starts her new life. To live authentically is easy to say, but it is even easier for people to give it up. And there's no shortage of excuse as to why you aren't trying to pursue your dreams. Easily there could be some kind of an oppressor figure to be blamed on, be it your boss, your parents, the social environment, or sometimes you could feel that your upbringing has hindered you. Not to downplay these obstacles, but to live one's life authentically usually means sorting out your priorities and making sacrifices, too. If you want everything, that's just greed. And to realize this and have the resolve to make such sacrifices is why Ymir's story feels so powerful to me. In her case, she went back to the kind of life she felt lucky to have escaped from. The anime may have kind of glossed over it, but you could feel the manga author's intention there. It was no easy decision for Ymir.</p>
+                    <p>And the story became doubly powerful as Ymir went on to influence Historia, as she saw a lot of herself in Historia, and sort of have romantic feelings for her. And eventually, Historia was also able to be true to herself, though her choice was different. While Ymir wanted to live sort of like a hermit, Historia agreed to be installed as the Queen to end the political chaos in Paradis Island, but you could feel it was her authentic choice, that she wanted to take the responsibility. This comes with great sacrifice, too, noticeably, a lot of her personal freedom. That is something many people never think of, but <em>Attack on Titan</em> did a fairly good job making this point.</p>
+                    <p>Pop quiz: I've always wanted to see Ymir get married to Queen Historia. Sadly, that didn't happen in <em>Attack on Titan</em>. But suppose we're writing a fanfiction about it. How should we call Ymir then? Queen Ymir? Queen's queen? Queen's wife?</p>
+                    <p>... (Not letting you see the answer too quickly. Please think about it a little bit. LOL)</p>
+                    <p>The answer is actually "Princess Ymir", though such a marriage has never happened in the real world. What did happen in the real world was Queen Elizabeth and Prince Philip. So by deduction, if a Queen, as the head of a state, has a wife instead, her wife's title should be "princess".</p>
+                </li>
+
+                <li class="hidden">
+                    <h5>楽園の扉 (lit. Door to Paradise)</h5>
+                    <p>Case: I don't know, perhaps a bit of personal struggle???</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/0Nh9qJMYDLU?si=jMYPHOFbmg5fQOWo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p>Comments:</p>
+                    <p>Hey, Congrats on finding the hidden item in the list!</p>
+                    <p>And wait! I can explain this! XD</p>
+                    <p>Nah, I'm joking. I couldn't care less what others think of me for listing this song here, given that it should be pretty much the same situation as another song in this list <em>この手で</em> - only those who know will immediately know. I mean, survivorship bias and all. Though, admittedly, people can also Google and find out... in which case I hope I have introduced you to a new world. XD</p>
+                    <p>The reason I put this song in the "maybe personal struggle" category is, of course, because of the content of the lyrics. It's maybe not a personal struggle I can resonate with, but definitely one that I could feel the emotion the story's narrator is going through. Keep in mind that lyrics, by their nature, is up to interpretaion, but here's what I think this song says.</p>
+                    <p>I think this song tells the story of a fairly daring masochist girl who eventually fell for the boy she was trying to... seduce, to put it simply. And, you know, the two characters involved here might as well be Manaka Nemu and the male protagonist from the game. The girl probably has some mental problems for unspecified reasons, which is likely why she's a masochist. It would look like she's really after the thrill. The boy, on the other hand, is likely a nice guy on the outside, and definitely not a very macho person. For the first verse of the song, the girl's feeling a lot of power within herself. Well, this might sound a bit weird, given that she probably put herself in... disadvantageous positions, for lack of better words, but, you know, it makes sense to me. The premise is that you do this in a conseual and controlled manner. That is very important, you know. Anyway, once that is sorted, I could see how the reaction of one's body to strong physical stimulus could put them in a chest-thumping mental state that's like "Come on! I'm strong and I can take some hits!" Or else, perhaps the girl in this story could feel like she's the one in control. This is evident as the lyrics goes "愛よ 蛇の化身になれ / 甘い罠にあなた誘う". She's totally feeling like she's the one who in fact has a say between she and him, as she's making this nice guy giving in to... let's just say, his more primitive instincts. But this turned around in the second verse, as the girl starts to lose control, not because the guy starts to take over, but rather, she's losing control of herself. This is because her mental state worsened, likely resulting in her demanding more of such "thrills" to distract herself from everything else in life that makes her suffer. She finds herself becoming more and more reliant on the boy, as he's likely the only person she could truly trust. He has become her hero. And hence the lyrics goes "きっと 滅びてはじまる / 救いの手伸ばして". However, their relationship isn't perfect, either. This whole thing is actually less conseual on the boy's side. He's not comfortable with hurting others, but he couldn't bring himself to just leave her, either. And the girl is very desperate to have him stay by her side. And so, "憎しみでも あなたの記憶を私だけで / 満たせたら 何もいらない". It's actually quite a sad story.</p>
+                    <p>You know, such power dynamics is actually not too different in the "OG" masochist novel, <em>Venus in Furs</em>. If you don't know, now you know that this novel is written by a 19th Century author named Leopold von Sacher-Masoch, and the term "masochism" is named after him! Also, if you don't know, now you know that "Venus in Furs" is basically 19th-Century people's concept of a dominatrix. XD</p>
+                    <p>I'm not going into too much detail here, but basically, in <em>Venus in Furs</em>, you kind of have the two roles above being filled by characters of opposite sexes of the two characters above: the male protagonist is the willingly submissive person and the female protagonist is the one that's kind of forced into taking a dominant role. However, in <em>Venus in Furs</em>, the male protagonist was eventually disappointed seeing that his partner was still so readily accepting her traditional gender role despite his effort to make her see an alternative way.</p>
+                    <p>Oh, and one more thing. Recently I have seen <a href="https://somoskudasai.com/wp-content/uploads/2022/08/A3-5.jpg" target="_blank">an insanely good cosplay of Nemu</a>. And, to be honest, what really caught my attention was actually the cosplayer's ear piercings. Obviously, this is not present on the original character, but something the cosplayer already wears. But, you know, that's 100% in line with the spirit! Not afraid of being hurt a little. That is hardcore, yo. Makes me believe that the cosplayer has likely played through the game. (Now, I know this sounds unconvincing but I actually haven't played the game! I just wanna say, if my guess is right, then she's just better than me, you know. I mean, I just like knowing that there are people out there who lean to the more unconventional side in terms of personality. You know, I'd say I myself is somewhat unconventional, too, so it kinda makes me glad simply knowing it.)</p>
+                </li>
+            </ul>
+        </article>
+    </main>
+
+    <footer></footer>
+
+    <script type="text/javascript">
+        $('header > nav').Navbar({activeItem: 'Hidden'});
+        $('footer').Footer();
+
+        // shuffle playlist
+        let $playlist = $('ul.playlist > li');
+        let indexArray = range($playlist.length);
+        shuffle(indexArray);
+        let $ul = $('ul.playlist');
+        for (let idx of indexArray) {
+            $($playlist[idx]).detach().appendTo($ul);
+        }
+    </script>
+</body>
