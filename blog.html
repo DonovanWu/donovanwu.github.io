@@ -63,6 +63,12 @@
     <script type="text/javascript">
         $('header > nav').Navbar({activeItem: 'Posts'});
         $('footer').Footer();
+        
+        if (detectMobile()) {
+            let root = document.querySelector(':root');
+            root.style.setProperty('--comment-width', '80%');
+            root.style.setProperty('--image-max-width', '100%');
+        }
 
         let urlParams = getURLParams();
         let post = urlParams.get('p');
@@ -71,9 +77,11 @@
                 url: `/content/${post}.md`,
                 commentElem: $('#comment')[0],
                 onload: () => {
-                    $('#scrollspy').AutoScrollSpy({
-                        target: $('article')
-                    });
+                    if (!detectMobile()) {
+                        $('#scrollspy').AutoScrollSpy({
+                            target: $('article')
+                        });
+                    }
                     $('article').append(
                         $(`
                             <a class="btn btn-link back-to-top">

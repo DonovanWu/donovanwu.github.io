@@ -44,6 +44,19 @@ function ensureOneTarget(target) {
     return $target;
 }
 
+function detectMobile() {
+    if (navigator.userAgentData !== undefined) {
+        return navigator.userAgentData.mobile;
+    }
+
+    let keywords = [
+        /android/i,
+        /iphone/i,
+    ];
+
+    return keywords.some((item) => navigator.userAgent.match(item));
+}
+
 /* Constants */
 
 const TITLE_SELECTOR = range(1, 7).map((n) => `h${n}`).join(',');  // h1 - h6
