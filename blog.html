@@ -39,6 +39,10 @@
         .back-to-top {
             margin-bottom: 25px;
         }
+        .date-displayer {
+            margin: 0px;
+            color: #999;
+        }
     </style>
 </head>
 <body>
@@ -89,7 +93,22 @@
                                 Back to Top
                             </a>
                         `).on('click', () => window.scrollTo({top: '0px'}, {behavior: 'smooth'}))
-                    )
+                    );
+
+                    // automatically figure out publish date (last modified date)
+                    let $div = $('<div>').addClass('date-displayer');
+                    $.ajax({
+                        url: `https://api.github.com/repos/DonovanWu/donovanwu.github.io/commits?path=content/${post}.md`,
+                        method: 'GET',
+                        success: function(resp) {
+                            let datetime = resp[0].commit.author.date;
+                            if (datetime) {
+                                $div.text(new Date(datetime).toDateString());
+                                $div.prepend($('<i class="fa-regular fa-calendar pe-2"></i>'));
+                                $div.insertAfter($('article').find('h1')[0]);
+                            }
+                        }
+                    });
                 }
             });
         }
