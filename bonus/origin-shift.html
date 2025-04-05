@@ -353,6 +353,30 @@ function shiftOrigin(dir = 'a') {
     setCell(nx, ny, 'o');
 }
 
+function distanceToOrigin(x, y, maxSteps = Infinity) {
+    let cell = getCell(x, y);
+    let dist = 0;
+    while (cell !== 'o' && dist < maxSteps) {
+        switch (cell) {
+            case 'u':
+                y--;
+                break;
+            case 'd':
+                y++;
+                break;
+            case 'l':
+                x--;
+                break;
+            case 'r':
+                x++;
+                break;
+        }
+        cell = getCell(x, y);
+        dist++;
+    }
+    return dist;
+}
+
 /** player representation **/
 
 var player = {x: 0, y: 0};
@@ -405,7 +429,8 @@ var mazeShiftSubroutine = null;
 
 const mazeShiftEventCount = {
     secondEverRoom: 1,
-    passingOrigin: HARD_MODE ? 5 : 3,
+    grazingOrigin: HARD_MODE ? 5 : 3,
+    passingOrigin: HARD_MODE ? 2 : 1,
     randomShift: HARD_MODE ? 100 : 10
 };
 
@@ -426,6 +451,15 @@ function tryShiftMaze() {
         let [px, py] = detectPlayerWithinCell();
         if (px === 1 && py === 0 || px === 0 && py === 1) {
             mazeShiftEventCount.secondEverRoom--;
+            triggerMazeShift();
+            return;
+        }
+    }
+    if (mazeShiftEventCount.grazingOrigin > 0) {
+        let [px, py] = detectPlayerWithinCell();
+        let dist = distanceToOrigin(px, py, 8);
+        if (dist >= 5 && dist <= 7) {
+            mazeShiftEventCount.grazingOrigin--;
             triggerMazeShift();
             return;
         }
