@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Origin Shift Maze</title>
+
+    <style type="text/css">
+body {
+    font-family: Arial;
+}
+#game {
+    width: 480px;
+    height: 480px;
+    margin: auto;
+    display: block;
+    border: 3px solid #ccc;
+}
+.container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+.d-none {
+    display: none;
+}
+#winmsg {
+    color: red;
+}
+#title {
+    text-align: center;
+    margin: 10px auto;
+}
+    </style>
+
+    <script type="text/javascript">
+
+/** utilities **/
+
+const urlParams = new URLSearchParams(window.location.search);
+const HARD_MODE = urlParams.get('mode') === 'hard';
+const SEED = parseInt(urlParams.get('seed') || (Math.random() * 0xffffffff) || 1);  // never seed with 0
+
+// Linear-feedback shift register
+function createLFSR(seed) {
+    let state = seed >>> 0;    // force unsigned 32-bit
+
+    return function () {
+        // Feedback taps: bits 32, 22, 2, 1
+        const bit = ((state >>> 0) ^ (state >>> 1) ^ (state >>> 21) ^ (state >>> 31)) & 1;
+        state = (state >>> 1) | (bit << 31);
+        state = state >>> 0;
+        return state / 0xffffffff;    // normalize to [0,1)
+    };
+}
+
+const random = createLFSR(SEED);
+
+function randomChoice(arr) {
+    return arr[Math.floor(random() * arr.length)];
+}
+
+/** game engine **/
+
+// WASD
+var KEYBOARD = {
+    LEFT: 65,
+    UP: 87,
+    RIGHT: 68,
+    DOWN: 83,
+};
+
+var KEYS_DOWN = {};
+function key_down(e) {
+    KEYS_DOWN[e.keyCode] = true;
+}
+function key_up(e) {
+    KEYS_DOWN[e.keyCode] = false;
+}
+
+var _canvas;
+var _g;
+
+const FPS = 50;
+const TICK_RATE = Math.ceil(FPS / 10);
+var frame = 0;
+
+window.onload = function() {
+    _canvas = document.getElementById('game');
+    _g = _canvas.getContext('2d');
+    window.addEventListener('keydown', key_down);
+    window.addEventListener('keyup',key_up);
+    let updateHandler = window.setInterval(() => {
+        GLIB.clear();
+        frame++;
+        update(() => window.clearInterval(updateHandler));
+    }, 1000 / FPS);
+    if (HARD_MODE) {
+        document.getElementById('hardmode').classList.add('d-none');
+    }
+    document.getElementById('title').innerText = `Seed: ${SEED}`;
+    init();
+};
+
+const GLIB = {
+    clear() {
+        _g.clearRect(0,0,_canvas.width,_canvas.height);
+    },
+    draw_circle(x,y,rad,color='#000000') {
+        _g.fillStyle = color;
+        _g.beginPath();
+        _g.arc(x,y,rad,0,Math.PI*2);
+        _g.closePath();
+        _g.fill();
+    },
+    draw_text(x,y,text,color='#000000') {
+        _g.textAlign = "center";
+        _g.fillStyle = color;
+        _g.fillText(text,x,y);
+    },
+    draw_rect(x,y,wid,hei,color='#000000') {
+        _g.fillStyle = color;
+        _g.fillRect(x,y,wid,hei);
+    },
+    draw_arrowhead(x,y,size,horizontal=true,color='#000000') {
+        _g.fillStyle = color;
+        _g.beginPath();
+        if (horizontal) {
+            _g.moveTo(x + size, y);
+            _g.lineTo(x - size, y - size);
+            _g.lineTo(x - size, y + size);
+        } else {
+            _g.moveTo(x, y + size);
+            _g.lineTo(x - size, y - size);
+            _g.lineTo(x + size, y - size);
+        }
+        _g.closePath();
+        _g.fill();
+    },
+    draw_line(x,y,length,horizontal=true,properties=null) {
+        if (properties === null) {
+            properties = {};
+        }
+        let arrowhead = properties.arrowhead || false;
+        let linewidth = properties.linewidth || 2;
+        let color = properties.color || '#000000';
+
+        _g.fillStyle = color;
+        if (horizontal) {
+            _g.fillRect(x, y - linewidth / 2, length, linewidth);
+            GLIB.draw_circle(x, y, linewidth / 2, color);
+            if (arrowhead) {
+                GLIB.draw_arrowhead(x + length, y, 1.5 * linewidth * Math.sign(length), horizontal, color);
+            }
+        } else {
+            _g.fillRect(x - linewidth / 2, y, linewidth, length);
+            GLIB.draw_circle(x, y, linewidth / 2, color);
+            if (arrowhead) {
+                GLIB.draw_arrowhead(x, y + length, 1.5 * linewidth * Math.sign(length), horizontal, color);
+            }
+        }
+    },
+};
+
+/** maze representation **/
+
+const MAZE_SIZE = HARD_MODE ? 32 : 18;
+const MAZE_MARGIN = 15;
+
+var _cellSize;
+
+const REVERSE_DIRECTION = {
+    l: 'r',
+    r: 'l',
+    d: 'u',
+    u: 'd'
+};
+
+var maze = Array(MAZE_SIZE).fill().map(() => Array(MAZE_SIZE).fill('o'));
+var origin = {x: -1, y: -1};
+
+function getCell(x, y) {
+    return maze[y][x];
+}
+
+function setCell(x, y, val) {
+    maze[y][x] = val;
+    if (val === 'o') {
+        origin.x = x;
+        origin.y = y;
+    }
+}
+
+function getCellSize() {
+    if (_cellSize === undefined) {
+        _cellSize = (_canvas.width - MAZE_MARGIN * 2) / MAZE_SIZE;
+    }
+    return _cellSize;
+}
+
+function getCellTopLeftCorner(x, y) {
+    return [
+        MAZE_MARGIN + getCellSize() * x,
+        MAZE_MARGIN + getCellSize() * y,
+    ];
+}
+
+function inNodeFromDirections(x, y) {
+    let result = [];
+    for (let [nx, ny, dir] of [
+        [x - 1, y, 'r'],
+        [x + 1, y, 'l'],
+        [x, y - 1, 'd'],
+        [x, y + 1, 'u'],
+    ]) {
+        if (nx < 0 || nx >= MAZE_SIZE || ny < 0 || ny >= MAZE_SIZE) {
+            continue;
+        }
+        if (getCell(nx, ny) === dir) {
+            result.push(REVERSE_DIRECTION[dir]);
+        }
+    }
+    return result;
+}
+
+function cellWalls(x, y) {
+    let walls = [];
+    let removeSides = inNodeFromDirections(x, y);
+    let cell = getCell(x, y);
+    if (cell !== 'o') {
+        removeSides.push(cell);
+    }
+    for (let side of ['u', 'd', 'l', 'r']) {
+        if (!removeSides.includes(side)) {
+            walls.push(side);
+        }
+    }
+    return walls;
+}
+
+function renderCellAsMazeBlock(x, y) {
+    let length = getCellSize();
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(x, y);
+    let [bottomRightX, bottomRightY] = [topLeftX + length, topLeftY + length];
+
+    let centerX = topLeftX + length / 2;
+    let centerY = topLeftY + length / 2;
+
+    let walls = cellWalls(x, y);
+    let noRenderSide = null;
+
+    // player goal is to go from top left to bottom right
+    if (x === 0 && y === 0) {
+        noRenderSide = 'u';
+    } else if (x === MAZE_SIZE - 1 && y === MAZE_SIZE - 1) {
+        noRenderSide = 'd';
+    }
+
+    for (let [startX, startY, len, horizontal, side] of [
+        [topLeftX, topLeftY, length, true, 'u'],
+        [topLeftX, topLeftY, length, false, 'l'],
+        [bottomRightX, bottomRightY, -length, true, 'd'],
+        [bottomRightX, bottomRightY, -length, false, 'r']
+    ]) {
+        if (walls.includes(side) && side !== noRenderSide) {
+            GLIB.draw_line(startX, startY, len, horizontal);
+        }
+    }
+}
+
+function renderCellAsVertex(x, y) {
+    let length = getCellSize();
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(x, y);
+    let centerX = topLeftX + length / 2;
+    let centerY = topLeftY + length / 2;
+    let cell = getCell(x, y);
+
+    if (cell !== 'o') {
+        GLIB.draw_line(
+            centerX, centerY,
+            ['d', 'r'].includes(cell) ? length : -length,
+            ['l', 'r'].includes(cell),
+            {arrowhead: true, color: '#404040'}
+        );
+    }
+}
+
+function renderCellAsText(x, y) {
+    let length = getCellSize();
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(x, y);
+    let centerX = topLeftX + length / 2;
+    let centerY = topLeftY + length / 2;
+    GLIB.draw_text(centerX, centerY, getCell(x, y), '#0000ff');
+}
+
+function* iterateMazeIndices() {
+    for (let i = 0; i < MAZE_SIZE; i++) {
+        for (let j = 0; j < MAZE_SIZE; j++) {
+            yield [i, j];
+        }
+    }
+}
+
+function renderAllCells(mode = 'cell') {
+    for (let [x, y] of iterateMazeIndices()) {
+        if (mode === 'cell') {
+            renderCellAsMazeBlock(x, y);
+        } else if (mode === 'graph') {
+            renderCellAsVertex(x, y);
+        } else if (mode === 'text') {
+            renderCellAsText(x, y);
+        }
+    }
+}
+
+function shiftOrigin(dir = 'a') {
+    if (dir === 'a') {
+        // automatic: shift to a random neighboring cell
+        choices = 'uldr';
+        
+        if (origin.x === 0) {
+            choices = choices.replace('l', '');
+        } else if (origin.x === MAZE_SIZE - 1) {
+            choices = choices.replace('r', '');
+        }
+
+        if (origin.y === 0) {
+            choices = choices.replace('u', '');
+        } else if (origin.y === MAZE_SIZE - 1) {
+            choices = choices.replace('d', '');
+        }
+        
+        dir = randomChoice(choices);
+    }
+
+    [nx, ny] = [origin.x, origin.y];
+    switch (dir) {
+        case 'u':
+            ny -= 1;
+            break;
+        case 'd':
+            ny += 1;
+            break;
+        case 'l':
+            nx -= 1;
+            break;
+        case 'r':
+            nx += 1;
+            break;
+    }
+
+    setCell(origin.x, origin.y, dir);
+    setCell(nx, ny, 'o');
+}
+
+/** player representation **/
+
+var player = {x: 0, y: 0};
+
+function detectPlayerWithinCell() {
+    let length = getCellSize();
+    let x = Math.floor((player.x - MAZE_MARGIN)  / length);
+    let y = Math.floor((player.y - MAZE_MARGIN)  / length);
+    return [x, y];
+}
+
+function movePlayer(dx, dy) {
+    let intendedX = player.x + dx;
+    let intendedY = player.y + dy;
+
+    let [x, y] = detectPlayerWithinCell();
+    let walls = cellWalls(x, y);
+
+    let length = getCellSize();
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(x, y);
+    let [bottomRightX, bottomRightY] = [topLeftX + length, topLeftY + length];
+
+    if (walls.includes('u') && intendedY < topLeftY) {
+        dy = 0;
+    }
+    if (walls.includes('d') && intendedY >= bottomRightY) {
+        dy = 0;
+    }
+    if (walls.includes('l') && intendedX < topLeftX) {
+        dx = 0;
+    }
+    if (walls.includes('r') && intendedX >= bottomRightX) {
+        dx = 0;
+    }
+
+    player.x += dx;
+    player.y += dy;
+}
+
+function renderPlayer() {
+    GLIB.draw_circle(player.x, player.y, 3, '#ff0000');
+}
+
+/** game logic **/
+
+const SHIFT_INTENSITY = HARD_MODE ? 50 : 20;
+const SHIFT_COUNT = HARD_MODE ? 10 : 7;
+var pendingShifts = 0;
+var mazeShiftSubroutine = null;
+
+const mazeShiftEventCount = {
+    secondEverRoom: 1,
+    passingOrigin: HARD_MODE ? 5 : 3,
+    randomShift: HARD_MODE ? 100 : 10
+};
+
+function triggerMazeShift() {
+    if (mazeShiftSubroutine === null) {
+        mazeShiftSubroutine = window.setTimeout(() => {
+            pendingShifts = SHIFT_COUNT;
+        }, Math.floor(500 * getCellSize() / FPS));
+    }
+}
+
+function tryShiftMaze() {
+    if (mazeShiftSubroutine !== null) {
+        return;
+    }
+
+    if (mazeShiftEventCount.secondEverRoom > 0) {
+        let [px, py] = detectPlayerWithinCell();
+        if (px === 1 && py === 0 || px === 0 && py === 1) {
+            mazeShiftEventCount.secondEverRoom--;
+            triggerMazeShift();
+            return;
+        }
+    }
+    if (mazeShiftEventCount.passingOrigin > 0) {
+        let [px, py] = detectPlayerWithinCell();
+        if (getCell(px, py) === 'o') {
+            mazeShiftEventCount.passingOrigin--;
+            triggerMazeShift();
+            return;
+        }
+    }
+    
+    // random shifts: unlimited
+    // every second is 10 ticks, independent of frame rate
+    // so a chance of 0.01 is 1 time per 10 seconds on average
+    if (random() < 0.01) {
+        mazeShiftEventCount.randomShift--;
+        triggerMazeShift();
+    }
+}
+
+function checkWinConditionMet() {
+    let length = getCellSize();
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(MAZE_SIZE - 1, MAZE_SIZE - 1);
+    return player.x > topLeftX + 1 && player.y > topLeftY + length / 2;
+}
+
+function init() {
+    // initialize maze
+    for (let [x, y] of iterateMazeIndices()) {
+        if (x === MAZE_SIZE - 1) {
+            if (y === MAZE_SIZE - 1) {
+                cell = 'o';
+            } else {
+                cell = 'd';
+            }
+        } else {
+            cell = 'r';
+        }
+        setCell(x, y, cell);
+    }
+
+    Array(MAZE_SIZE * MAZE_SIZE * MAZE_SIZE).fill().forEach(() => shiftOrigin());
+
+    renderAllCells();
+    
+    // set player initial position
+    let [topLeftX, topLeftY] = getCellTopLeftCorner(0, 0);
+    [player.x, player.y] = [topLeftX + getCellSize() / 2, topLeftY + 1];
+
+    renderPlayer();
+}
+
+function update(onGameOver) {
+    // tick based updates, 10 ticks per second
+
+    if (frame % TICK_RATE === 0) {
+        if (checkWinConditionMet()) {
+            document.getElementById('winmsg').classList.remove('d-none');
+            onGameOver();
+        }
+
+        tryShiftMaze();
+
+        if (pendingShifts > 0) {
+            Array(SHIFT_INTENSITY).fill().forEach(() => shiftOrigin());
+            pendingShifts--;
+            if (pendingShifts === 0) {
+                mazeShiftSubroutine = null;
+            }
+        }
+    }
+
+    // frame based updates
+
+    let [dx, dy] = [0, 0];
+    if (KEYS_DOWN[KEYBOARD.UP] && KEYS_DOWN[KEYBOARD.LEFT]) {
+        [dx, dy] = [-0.7, -0.7];
+    } else if (KEYS_DOWN[KEYBOARD.UP] && KEYS_DOWN[KEYBOARD.RIGHT]) {
+        [dx, dy] = [0.7, -0.7];
+    } else if (KEYS_DOWN[KEYBOARD.DOWN] && KEYS_DOWN[KEYBOARD.LEFT]) {
+        [dx, dy] = [-0.7, 0.7];
+    } else if (KEYS_DOWN[KEYBOARD.DOWN] && KEYS_DOWN[KEYBOARD.RIGHT]) {
+        [dx, dy] = [0.7, 0.7];
+    } else if (KEYS_DOWN[KEYBOARD.UP]) {
+        [dx, dy] = [0, -1];
+    } else if (KEYS_DOWN[KEYBOARD.DOWN]) {
+        [dx, dy] = [0, 1];
+    } else if (KEYS_DOWN[KEYBOARD.LEFT]) {
+        [dx, dy] = [-1, 0];
+    } else if (KEYS_DOWN[KEYBOARD.RIGHT]) {
+        [dx, dy] = [1, 0];
+    }
+
+    movePlayer(dx, dy);
+
+    renderAllCells();
+    renderPlayer();
+}
+
+    </script>
+</head>
+<body>
+    <a href="/index.html">&lt;&lt;&lt; Home</a>
+    <h4 id="title" title="Hint: pass this in the URL parameter to regenerate this maze."></h4>
+    <canvas id="game" width="480px" height="480px"></canvas>
+    <div class="container">
+        <h2 id="winmsg" class="d-none">YOU WIN!</h2>
+        <p>
+            This is an implementation of the "Origin Shift" maze generation algorithm based on
+            <a href="https://www.youtube.com/watch?v=zbXKcDVV4G0">this youtube video</a>!
+        </p>
+        <p>WASD to move. The exit is on the bottom right. Beware that the maze might shift midway!</p>
+        <p id="hardmode">Too easy? Try <a href="?mode=hard">hard mode</a>!</p>
+    </div>
+</body>
+</html>
