@@ -430,8 +430,7 @@ var mazeShiftSubroutine = null;
 const mazeShiftEventCount = {
     secondEverRoom: 1,
     grazingOrigin: HARD_MODE ? 5 : 3,
-    passingOrigin: HARD_MODE ? 2 : 1,
-    randomShift: HARD_MODE ? 100 : 10
+    passingOrigin: HARD_MODE ? 2 : 1
 };
 
 function triggerMazeShift() {
@@ -477,7 +476,6 @@ function tryShiftMaze() {
     // every second is 10 ticks, independent of frame rate
     // so a chance of 0.01 is 1 time per 10 seconds on average
     if (random() < 0.01) {
-        mazeShiftEventCount.randomShift--;
         triggerMazeShift();
     }
 }
