@@ -427,8 +427,10 @@ function renderPlayer() {
 
 const SHIFT_INTENSITY = HARD_MODE ? 50 : 20;
 const SHIFT_COUNT = HARD_MODE ? 10 : 7;
+const EVENT_COOLDOWN_MS = HARD_MODE ? 5000: 7500;
 var pendingShifts = 0;
 var mazeShiftSubroutine = null;
+var eventCoolDownInProgress = false;
 
 const mazeShiftEventCount = {
     secondEverRoom: 1,
@@ -441,6 +443,15 @@ function triggerMazeShift() {
         mazeShiftSubroutine = window.setTimeout(() => {
             pendingShifts = SHIFT_COUNT;
         }, Math.floor(500 * getCellSize() / FPS));
+    }
+}
+
+function setEventCooldown() {
+    if (!eventCoolDownInProgress) {
+        eventCoolDownInProgress = true;
+        window.setTimeout(() => {
+            eventCoolDownInProgress = false;
+        }, EVENT_COOLDOWN_MS);
     }
 }
 
@@ -457,20 +468,22 @@ function tryShiftMaze() {
             return;
         }
     }
-    if (mazeShiftEventCount.grazingOrigin > 0) {
+    if (mazeShiftEventCount.grazingOrigin > 0 && !eventCoolDownInProgress) {
         let [px, py] = detectPlayerWithinCell();
         let dist = distanceToOrigin(px, py, 8);
-        if (dist >= 5 && dist <= 7) {
+        if (dist === 3 || dist === 6 || dist == 10) {
             mazeShiftEventCount.grazingOrigin--;
             triggerMazeShift();
+            setEventCooldown();
             return;
         }
     }
-    if (mazeShiftEventCount.passingOrigin > 0) {
+    if (mazeShiftEventCount.passingOrigin > 0 && !eventCoolDownInProgress && getCell(0, 0) !== 'o') {
         let [px, py] = detectPlayerWithinCell();
         if (getCell(px, py) === 'o') {
             mazeShiftEventCount.passingOrigin--;
             triggerMazeShift();
+            setEventCooldown();
             return;
         }
     }
@@ -559,6 +572,7 @@ function update(onGameOver) {
     movePlayer(dx, dy);
 
     renderAllCells();
+    renderAllCells('text');
     renderPlayer();
 }
 
