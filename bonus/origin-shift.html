@@ -427,15 +427,15 @@ function renderPlayer() {
 
 const SHIFT_INTENSITY = HARD_MODE ? 50 : 20;
 const SHIFT_COUNT = HARD_MODE ? 10 : 7;
-const EVENT_COOLDOWN_MS = HARD_MODE ? 5000: 7500;
+const EVENT_COOLDOWN_MS = HARD_MODE ? 7500: 10000;
 var pendingShifts = 0;
 var mazeShiftSubroutine = null;
 var eventCoolDownInProgress = false;
 
 const mazeShiftEventCount = {
     secondEverRoom: 1,
-    grazingOrigin: HARD_MODE ? 5 : 3,
-    passingOrigin: HARD_MODE ? 2 : 1
+    grazingOrigin: HARD_MODE ? 10 : 5,
+    passingOrigin: HARD_MODE ? 3 : 2
 };
 
 function triggerMazeShift() {
@@ -460,11 +460,12 @@ function tryShiftMaze() {
         return;
     }
 
-    if (mazeShiftEventCount.secondEverRoom > 0) {
+    if (mazeShiftEventCount.secondEverRoom > 0 && !eventCoolDownInProgress) {
         let [px, py] = detectPlayerWithinCell();
         if (px === 1 && py === 0 || px === 0 && py === 1) {
             mazeShiftEventCount.secondEverRoom--;
             triggerMazeShift();
+            setEventCooldown();
             return;
         }
     }
