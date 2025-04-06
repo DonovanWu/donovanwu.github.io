@@ -539,7 +539,7 @@ function tryShiftMaze() {
     if (mazeShiftEventCount.inOriginVicinity > 0) {
         let [px, py] = detectPlayerWithinCell();
         let manhattanDistance = Math.abs(px - origin.x) + Math.abs(py - origin.y);
-        if (manhattanDistance === 2 || manhattanDistance === 5) {
+        if (manhattanDistance === 5) {
             mazeShiftEventCount.inOriginVicinity--;
             triggerMazeShift();
             return;
