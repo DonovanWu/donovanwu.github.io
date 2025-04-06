@@ -102,6 +102,7 @@ window.onload = function() {
         document.getElementById('hardmode').classList.add('d-none');
     }
     document.getElementById('title').innerText = `Seed: ${SEED}`;
+    console.log('Feeling frustrated? Type cheat() to have the answer handed to you. LOL');
     init();
 };
 
@@ -176,11 +177,12 @@ const REVERSE_DIRECTION = {
     l: 'r',
     r: 'l',
     d: 'u',
-    u: 'd'
+    u: 'd',
+    o: 'o'
 };
 
 var maze = Array(MAZE_SIZE).fill().map(() => Array(MAZE_SIZE).fill('o'));
-var origin = {x: -1, y: -1};
+const origin = {x: -1, y: -1};
 
 function getCell(x, y) {
     return maze[y][x];
@@ -271,12 +273,12 @@ function renderCellAsMazeBlock(x, y) {
     }
 }
 
-function renderCellAsVertex(x, y) {
+function renderCellAsVertex(x, y, overwriteDir = null) {
     let length = getCellSize();
     let [topLeftX, topLeftY] = getCellTopLeftCorner(x, y);
     let centerX = topLeftX + length / 2;
     let centerY = topLeftY + length / 2;
-    let cell = getCell(x, y);
+    let cell = overwriteDir || getCell(x, y);
 
     if (cell !== 'o') {
         GLIB.draw_line(
@@ -313,6 +315,15 @@ function renderAllCells(mode = 'cell') {
         } else if (mode === 'text') {
             renderCellAsText(x, y);
         }
+    }
+}
+
+function renderRoute(route) {
+    for (let [x, y, cell] of route) {
+        if (!cell) {
+            cell = getCell(x, y);
+        }
+        renderCellAsVertex(x, y, cell);
     }
 }
 
@@ -356,10 +367,11 @@ function shiftOrigin(dir = 'a') {
     setCell(nx, ny, 'o');
 }
 
-function distanceToOrigin(x, y, maxSteps = Infinity) {
+function traceToOrigin(x, y, maxSteps = Infinity) {
+    let trace = [];
     let cell = getCell(x, y);
-    let dist = 0;
-    while (cell !== 'o' && dist < maxSteps) {
+    while (cell !== 'o' && trace.length < maxSteps) {
+        trace.push([x, y]);
         switch (cell) {
             case 'u':
                 y--;
@@ -375,14 +387,13 @@ function distanceToOrigin(x, y, maxSteps = Infinity) {
                 break;
         }
         cell = getCell(x, y);
-        dist++;
     }
-    return dist;
+    return trace;
 }
 
 /** player representation **/
 
-var player = {x: 0, y: 0};
+const player = {x: 0, y: 0};
 
 function detectPlayerWithinCell() {
     let length = getCellSize();
@@ -423,6 +434,45 @@ function renderPlayer() {
     GLIB.draw_circle(player.x, player.y, 3, '#ff0000');
 }
 
+function calculateSolutionPath() {
+    let path = [];
+
+    let [px, py] = detectPlayerWithinCell();
+    let traceFromPlayer = traceToOrigin(px, py);
+    let traceFromExit = traceToOrigin(MAZE_SIZE - 1, MAZE_SIZE - 1);
+    traceFromPlayer = traceFromPlayer.reverse();
+    traceFromExit = traceFromExit.reverse();
+
+    let cross = [null, null, null, null];
+    for (let i = 0; i < Math.max(traceFromPlayer.length, traceFromExit.length); i++) {
+        let [ppx, ppy] = traceFromPlayer[i] || [null, null];
+        let [epx, epy] = traceFromExit[i] || [null, null];
+        let [nepx, nepy] = traceFromExit[i + 1] || [null, null];
+
+        if (ppx === epx && ppy === epy) {
+            cross = [epx, epy, nepx, nepy];
+            continue;
+        }
+
+        if (ppx !== null && ppy !== null) {
+            path.push([ppx, ppy, getCell(ppx, ppy)]);
+        }
+        if (epx !== null && epy !== null && nepx !== null && nepy !== null) {
+            path.push([epx, epy, REVERSE_DIRECTION[getCell(nepx, nepy)]]);
+        }
+    }
+    let [epx, epy, nepx, nepy] = cross;
+    if (epx !== null && epy !== null && nepx !== null && nepy !== null) {
+        path.push([epx, epy, REVERSE_DIRECTION[getCell(nepx, nepy)]]);
+    } else if (epx === null && epy === null && nepx === null && nepy === null && traceFromExit.length > 0) {
+        // cross is at origin
+        let [x, y] = traceFromExit[0];
+        path.push([origin.x, origin.y, REVERSE_DIRECTION[getCell(x, y)]]);
+    }
+
+    return path;
+}
+
 /** game logic **/
 
 const SHIFT_INTENSITY = HARD_MODE ? 50 : 20;
@@ -431,18 +481,21 @@ const EVENT_COOLDOWN_MS = HARD_MODE ? 5000 : 7500;
 var pendingShifts = 0;
 var mazeShiftSubroutine = null;
 var eventCoolDownInProgress = false;
+var _enable_cheat = false;
 
 const mazeShiftEventCount = {
     secondEverRoom: 1,
-    grazingOrigin: HARD_MODE ? 10 : 5,
-    passingOrigin: HARD_MODE ? 3 : 2
+    passingByOrigin: HARD_MODE ? 10 : 5,
+    inOriginVicinity: HARD_MODE ? 3 : 2
 };
+var solutionPath = [];
 
 function triggerMazeShift() {
     if (mazeShiftSubroutine === null) {
         mazeShiftSubroutine = window.setTimeout(() => {
             pendingShifts = SHIFT_COUNT;
         }, Math.floor(500 * getCellSize() / FPS));
+        setEventCooldown();
     }
 }
 
@@ -456,7 +509,7 @@ function setEventCooldown() {
 }
 
 function tryShiftMaze() {
-    if (mazeShiftSubroutine !== null || eventCoolDownInProgress) {
+    if (mazeShiftSubroutine !== null) {
         return;
     }
 
@@ -465,34 +518,39 @@ function tryShiftMaze() {
         if (px === 1 && py === 0 || px === 0 && py === 1) {
             mazeShiftEventCount.secondEverRoom--;
             triggerMazeShift();
-            setEventCooldown();
             return;
         }
     }
-    if (mazeShiftEventCount.grazingOrigin > 0) {
+
+    if (eventCoolDownInProgress) {
+        return;
+    }
+
+    if (mazeShiftEventCount.passingByOrigin > 0) {
         let [px, py] = detectPlayerWithinCell();
-        let dist = distanceToOrigin(px, py, 8);
-        if (dist === 3 || dist === 6 || dist == 10) {
-            mazeShiftEventCount.grazingOrigin--;
+        let dist = traceToOrigin(px, py, 11).length;
+        if (dist === 1 || dist === 3 || dist === 6 || dist == 10) {
+            mazeShiftEventCount.passingByOrigin--;
             triggerMazeShift();
-            setEventCooldown();
             return;
         }
     }
-    if (mazeShiftEventCount.passingOrigin > 0 && getCell(0, 0) !== 'o') {
+
+    if (mazeShiftEventCount.inOriginVicinity > 0) {
         let [px, py] = detectPlayerWithinCell();
-        if (getCell(px, py) === 'o') {
-            mazeShiftEventCount.passingOrigin--;
+        let manhattanDistance = Math.abs(px - origin.x) + Math.abs(py - origin.y);
+        if (manhattanDistance === 2 || manhattanDistance === 5) {
+            mazeShiftEventCount.inOriginVicinity--;
             triggerMazeShift();
-            setEventCooldown();
             return;
         }
     }
     
     // random shifts: unlimited
     // every second is 10 ticks, independent of frame rate
-    // so a chance of 0.01 is 1 time per 10 seconds on average
-    if (random() < 0.01) {
+    // so a chance of 0.02 is 1 time per 5 seconds on average
+    // plus the cool down in between
+    if (random() < 0.02) {
         triggerMazeShift();
     }
 }
@@ -501,6 +559,10 @@ function checkWinConditionMet() {
     let length = getCellSize();
     let [topLeftX, topLeftY] = getCellTopLeftCorner(MAZE_SIZE - 1, MAZE_SIZE - 1);
     return player.x > topLeftX + 1 && player.y > topLeftY + Math.min(length - 1, 3 * length / 4);
+}
+
+function cheat() {
+    _enable_cheat = true;
 }
 
 function init() {
@@ -539,6 +601,9 @@ function update(onGameOver) {
         }
 
         tryShiftMaze();
+        if (_enable_cheat) {
+            solutionPath = calculateSolutionPath();
+        }
 
         if (pendingShifts > 0) {
             Array(SHIFT_INTENSITY).fill().forEach(() => shiftOrigin());
@@ -573,6 +638,9 @@ function update(onGameOver) {
     movePlayer(dx, dy);
 
     renderAllCells();
+    if (_enable_cheat) {
+        renderRoute(solutionPath);
+    }
     renderPlayer();
 }
 
