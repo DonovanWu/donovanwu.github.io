@@ -98,18 +98,34 @@
                         `).on('click', () => window.scrollTo({top: '0px'}, {behavior: 'smooth'}))
                     );
 
-                    // automatically figure out publish date (last modified date)
-                    let $div = $('<div>').addClass('date-displayer');
+                    // automatically add publish date and last modified date
                     $.ajax({
                         url: `https://api.github.com/repos/DonovanWu/donovanwu.github.io/commits?path=content/${post}.md`,
                         method: 'GET',
                         success: function(resp) {
-                            let datetime = resp[0].commit.author.date;
-                            if (datetime) {
-                                $div.text(new Date(datetime).toDateString());
+                            let last = resp[0];
+                            let first = resp[resp.length - 1];
+                            let $div = $('<div>').addClass('date-displayer');
+                            if (last.commit.author.date && last.commit.author.date !== first.commit.author.date) {
+                                sha256(`content/${post}.md`).then((hash) => {
+                                    // to ensure this is at the end, prepend everything else...
+                                    $div.append(
+                                        $('<a>').addClass('ms-4').text('[view diff]').attr(
+                                            'href',
+                                            `https://github.com/DonovanWu/donovanwu.github.io/compare/${first.sha}...${last.sha}#diff-${hash}`
+                                        ).attr('target', '_blank').append($('<i class="fa-solid fa-arrow-up-right-from-square ps-1"></i>'))
+                                    );
+                                });
+                                $div.prepend($('<span>').text(new Date(last.commit.author.date).toDateString()));
                                 $div.prepend($('<i class="fa-regular fa-calendar pe-2"></i>'));
-                                $div.insertAfter($('article').find('h1')[0]);
+                                $div.prepend($('<span class="me-2 ms-4">Last Modified:</span>'));
                             }
+                            if (first.commit.author.date) {
+                                $div.prepend($('<span>').text(new Date(first.commit.author.date).toDateString()));
+                                $div.prepend($('<i class="fa-regular fa-calendar pe-2"></i>'));
+                                $div.prepend($('<span class="me-2">Published:</span>'));
+                            }
+                            $div.insertAfter($('article').find('h1')[0]);
                         }
                     });
                 }
