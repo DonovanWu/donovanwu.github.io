@@ -66,10 +66,17 @@ body > footer {
     font-weight: bold;
 }
 blockquote {
-    padding-top: 10px;
-    padding-bottom: 30px;
-    background-color: #f8f8f8;
-    white-space: pre-wrap;
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+}
+blockquote:before {
+    color: #ccc;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
 }
 table.format td {
     padding: 5px 10px;

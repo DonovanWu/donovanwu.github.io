@@ -26,9 +26,8 @@ I mean, the Roman Republic was founded in 509 BC, and the word "libertas" was al
 
 The following is quote from [_Records of the Grand Historian_](https://en.wikipedia.org/wiki/Records_of_the_Grand_Historian), a.k.a. _Shiji_:
 
-```
-王行暴虐侈傲，国人谤王。召公谏曰：“民不堪命矣。”王怒，得卫巫，使监谤者，以告则杀之。其谤鲜矣，诸侯不朝。三十四年，王益严，国人莫敢言，道路以目。厉王喜，告召公曰：“吾能弭谤矣，乃不敢言。”召公曰：“是鄣之也。防民之口，甚于防水。水壅而溃，伤人必多，民亦如之。是故为水者决之使导，为民者宣之使言。”——《史记·周本纪》
-```
+> 王行暴虐侈傲，国人谤王。召公谏曰：“民不堪命矣。”王怒，得卫巫，使监谤者，以告则杀之。其谤鲜矣，诸侯不朝。三十四年，王益严，国人莫敢言，道路以目。厉王喜，告召公曰：“吾能弭谤矣，乃不敢言。”召公曰：“是鄣之也。防民之口，甚于防水。水壅而溃，伤人必多，民亦如之。是故为水者决之使导，为民者宣之使言。”
+> ——<cite>《史记·周本纪》</cite>
 
 Translation by me:
 
@@ -36,9 +35,8 @@ King Li of Zhou enacted tyranny, abuse, excessively lavish spending, and arrogan
 
 So what's the ending for this tyrannical King Li? _Shiji_ documented:
 
-```
-“于是国莫敢出言，三年，乃相与畔，袭厉王。厉王出奔于彘。厉王太子静匿召公之家，国人闻之，乃围之。召公...乃以其子代王太子，太子竟得脱。召公、周公二相行政，号曰‘共和’。共和十四年，厉王死于彘。太子静长于召公家，二相乃共立之为王，是为宣王。”——《史记·周本纪》
-```
+> 于是国莫敢出言，三年，乃相与畔，袭厉王。厉王出奔于彘。厉王太子静匿召公之家，国人闻之，乃围之。召公...乃以其子代王太子，太子竟得脱。召公、周公二相行政，号曰‘共和’。共和十四年，厉王死于彘。太子静长于召公家，二相乃共立之为王，是为宣王。
+> ——<cite>《史记·周本纪》</cite>
 
 Translation by me:
 
@@ -56,9 +54,8 @@ Okay, so, maybe there's something left to be desired for "共和" as the transla
 
 So, "革命" is also a word dug up by Japanese from pre-Qin literature, and specifically, from I-Ching. The original text is as followed:
 
-```
-“汤武革命，顺乎天而应乎人，革之时大矣哉！”——《周易·革卦》
-```
+> 汤武革命，顺乎天而应乎人，革之时大矣哉！
+> ——<cite>《周易·革卦》</cite>
 
 Translation by... Oh wait, that's going to give away what this word _actually_ means. So let's focus on what these two characters _should_ mean literally first.
 
@@ -72,9 +69,8 @@ So while we often think of revolution as some grassroots uprising, the translati
 
 As for the last word we haven't talked about, "霸道" (Chinese pinyin: Bà Dào), meaning "domineering" in modern Chinese, if you are curious about the etymology of this word, this is not a translation, but simply a word that's native to modern Chinese. The first character means "hegemon" while the second means "the way", and therefore, literally this word means "the way of a hegemon", and you can probably see why it means "domineering". However, in ancient Chinese, its meaning is a lot more moderate. Consider the following from _Xunzi_, one of the classic Confucian literature:
 
-```
-“明其不并之行，信其友敌之道，天下无王霸主，则常胜矣。是知霸道者也。”——《荀子·王制》
-```
+> 明其不并之行，信其友敌之道，天下无王霸主，则常胜矣。是知霸道者也。
+> ——<cite>《荀子·王制》</cite>
 
 Tranlsation by me:
 

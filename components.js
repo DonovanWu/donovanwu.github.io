@@ -365,14 +365,8 @@ class MarkdownLoader extends Component {
                 let $blockQuotes = $this.$div.find('blockquote');
                 for (let quoteElem of $blockQuotes) {
                     let $quote = $(quoteElem);
-                    let text = $quote.text();
-                    $quote.text('').addClass('container d-flex justify-content-between').append(
-                        $('<div>').css({fontSize: '30px', marginRight: '10px'}).addClass('align-self-start').text('“')
-                    ).append(
-                        $('<div>').text(text)
-                    ).append(
-                        $('<div>').css({fontSize: '30px', marginLeft: '10px'}).addClass('align-self-end').text('”')
-                    );
+                    $quote.find('p').addClass('m-2');
+                    $quote.find('a').addClass('link-secondary').attr('target', '_blank');
                 }
 
                 // tables
