@@ -152,7 +152,7 @@ class Navbar extends Component {
                     <ul class="dropdown-menu">
                         <li class="nav-item"><a class="dropdown-item" href="/list.html?t=weeb">Weeb Stuff</a></li>
                         <li class="nav-item"><a class="dropdown-item" href="/list.html?t=stem">STEM Topics</a></li>
-                        <li class="nav-item"><a class="dropdown-item" href="/list.html?t=misc">Miscellaneous</a></li>
+                        <li class="nav-item"><a class="dropdown-item" href="/list.html?t=yap">Yapping</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
